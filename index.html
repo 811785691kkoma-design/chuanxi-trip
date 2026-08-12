@@ -1,0 +1,1386 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>川西自驾路书 · 长图攻略</title>
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  
+  body {
+    font-family: -apple-system, 'PingFang SC', 'Microsoft YaHei', 'Noto Sans SC', sans-serif;
+    background: #f5f0e8;
+    display: flex;
+    justify-content: center;
+    min-height: 100vh;
+  }
+
+  .poster {
+    width: 750px;
+    background: #FFF9F0;
+    position: relative;
+    overflow: hidden;
+    box-shadow: 0 10px 60px rgba(0,0,0,0.15);
+  }
+
+  /* Decorative background elements */
+  .poster::before {
+    content: '';
+    position: absolute;
+    top: -100px; right: -100px;
+    width: 300px; height: 300px;
+    background: radial-gradient(circle, rgba(255,200,120,0.2) 0%, transparent 70%);
+    border-radius: 50%;
+  }
+
+  .poster::after {
+    content: '';
+    position: absolute;
+    bottom: 200px; left: -80px;
+    width: 250px; height: 250px;
+    background: radial-gradient(circle, rgba(120,180,160,0.15) 0%, transparent 70%);
+    border-radius: 50%;
+  }
+
+  /* ===== HEADER ===== */
+  .header {
+    position: relative;
+    padding: 50px 40px 30px;
+    text-align: center;
+    background: linear-gradient(180deg, #FFF0D6 0%, #FFF9F0 100%);
+  }
+
+  .sun {
+    position: absolute;
+    top: 35px;
+    left: 50px;
+    width: 50px;
+    height: 50px;
+  }
+
+  .sun-body {
+    width: 30px;
+    height: 30px;
+    background: #FFB84D;
+    border-radius: 50%;
+    position: absolute;
+    top: 10px; left: 10px;
+  }
+
+  .sun-ray {
+    position: absolute;
+    width: 3px;
+    height: 8px;
+    background: #FFB84D;
+    border-radius: 2px;
+    top: 50%; left: 50%;
+    transform-origin: center;
+  }
+
+  .cloud {
+    position: absolute;
+    background: #fff;
+    border-radius: 20px;
+    opacity: 0.9;
+  }
+
+  .cloud::before, .cloud::after {
+    content: '';
+    position: absolute;
+    background: #fff;
+    border-radius: 50%;
+  }
+
+  .cloud-1 {
+    width: 60px; height: 24px;
+    top: 45px; right: 70px;
+  }
+  .cloud-1::before { width: 28px; height: 28px; top: -12px; left: 8px; }
+  .cloud-1::after { width: 20px; height: 20px; top: -8px; right: 10px; }
+
+  .cloud-2 {
+    width: 45px; height: 18px;
+    top: 90px; right: 130px;
+  }
+  .cloud-2::before { width: 20px; height: 20px; top: -10px; left: 6px; }
+  .cloud-2::after { width: 15px; height: 15px; top: -7px; right: 8px; }
+
+  .plane {
+    position: absolute;
+    top: 60px;
+    right: 55px;
+    font-size: 28px;
+    transform: rotate(-15deg);
+  }
+
+  .tag {
+    display: inline-block;
+    background: #E8743B;
+    color: #fff;
+    padding: 6px 18px;
+    border-radius: 20px;
+    font-size: 14px;
+    font-weight: 700;
+    margin-bottom: 16px;
+    letter-spacing: 2px;
+  }
+
+  .main-title {
+    font-size: 52px;
+    font-weight: 900;
+    color: #D94E1F;
+    line-height: 1.2;
+    margin-bottom: 10px;
+    letter-spacing: 2px;
+  }
+
+  .sub-title {
+    font-size: 24px;
+    color: #8B5E3C;
+    font-weight: 700;
+    margin-bottom: 20px;
+  }
+
+  .trip-info {
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+    flex-wrap: wrap;
+    margin-top: 20px;
+  }
+
+  .info-pill {
+    background: #fff;
+    border: 2px solid #FFD9A6;
+    border-radius: 25px;
+    padding: 8px 18px;
+    font-size: 14px;
+    color: #6B4423;
+    font-weight: 500;
+  }
+
+  /* ===== ROUTE MAP SECTION ===== */
+  .route-section {
+    padding: 30px 40px;
+    position: relative;
+  }
+
+  .section-title {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    margin-bottom: 24px;
+  }
+
+  .section-title h2 {
+    font-size: 28px;
+    color: #D94E1F;
+    font-weight: 900;
+    background: #FFE8CC;
+    padding: 10px 28px;
+    border-radius: 30px;
+  }
+
+  .route-map-card {
+    background: #fff;
+    border-radius: 24px;
+    padding: 30px;
+    box-shadow: 0 8px 30px rgba(0,0,0,0.06);
+    position: relative;
+  }
+
+  .map-svg {
+    width: 100%;
+    height: auto;
+  }
+
+  .stops-list {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 12px;
+    margin-top: 20px;
+  }
+
+  .stop-item {
+    position: relative;
+    border-radius: 14px;
+    overflow: hidden;
+    background: #f5f0e8;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+  }
+
+  .stop-item.return-item {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    background: #e8f0e8;
+    font-size: 14px;
+    color: #5A8F5A;
+    font-weight: 600;
+    min-height: 80px;
+  }
+
+  .stop-img {
+    width: 100%;
+    height: 85px;
+    object-fit: cover;
+    display: block;
+  }
+
+  .stop-num {
+    position: absolute;
+    top: 6px;
+    left: 6px;
+    width: 24px;
+    height: 24px;
+    background: #E8743B;
+    color: #fff;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 12px;
+    font-weight: 700;
+    z-index: 2;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.35);
+  }
+
+  .stop-info {
+    padding: 8px 10px;
+  }
+
+  .stop-name {
+    font-size: 13px;
+    color: #5A3E2B;
+    font-weight: 700;
+  }
+
+  .stop-alt {
+    color: #999;
+    font-size: 11px;
+    display: block;
+    margin-top: 1px;
+  }
+
+  /* ===== STATS ===== */
+  .stats-bar {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 12px;
+    padding: 0 40px 30px;
+  }
+
+  .stat-box {
+    background: #fff;
+    border-radius: 16px;
+    padding: 16px 10px;
+    text-align: center;
+    border: 2px solid #FFE8CC;
+  }
+
+  .stat-icon {
+    font-size: 28px;
+    margin-bottom: 6px;
+  }
+
+  .stat-num {
+    font-size: 22px;
+    font-weight: 900;
+    color: #D94E1F;
+  }
+
+  .stat-label {
+    font-size: 12px;
+    color: #8B5E3C;
+    margin-top: 2px;
+  }
+
+  /* ===== DAY CARDS ===== */
+  .day-section {
+    padding: 20px 40px 30px;
+  }
+
+  .day-card {
+    background: #fff;
+    border-radius: 24px;
+    overflow: hidden;
+    margin-bottom: 20px;
+    box-shadow: 0 8px 30px rgba(0,0,0,0.06);
+  }
+
+  .day-header {
+    padding: 20px 24px;
+    color: #fff;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .day-header::before {
+    content: '';
+    position: absolute;
+    top: -20px;
+    right: -20px;
+    width: 80px;
+    height: 80px;
+    background: rgba(255,255,255,0.15);
+    border-radius: 50%;
+  }
+
+  .day-1 { background: linear-gradient(135deg, #4A90A4, #6BB3C4); }
+  .day-2 { background: linear-gradient(135deg, #D94E1F, #E8743B); }
+  .day-3 { background: linear-gradient(135deg, #5A8F5A, #7AB87A); }
+
+  .day-label {
+    font-size: 13px;
+    opacity: 0.9;
+    letter-spacing: 1px;
+  }
+
+  .day-title {
+    font-size: 22px;
+    font-weight: 900;
+    margin-top: 4px;
+  }
+
+  .day-route {
+    font-size: 13px;
+    opacity: 0.9;
+    margin-top: 6px;
+  }
+
+  .day-body {
+    padding: 24px;
+  }
+
+  .timeline {
+    position: relative;
+    padding-left: 28px;
+  }
+
+  .timeline::before {
+    content: '';
+    position: absolute;
+    left: 8px;
+    top: 0;
+    bottom: 0;
+    width: 3px;
+    background: #FFE8CC;
+    border-radius: 2px;
+  }
+
+  .t-item {
+    position: relative;
+    padding-bottom: 18px;
+  }
+
+  .t-item:last-child { padding-bottom: 0; }
+
+  .t-dot {
+    position: absolute;
+    left: -28px;
+    top: 2px;
+    width: 18px;
+    height: 18px;
+    border-radius: 50%;
+    background: #fff;
+    border: 3px solid #FFB84D;
+  }
+
+  .t-time {
+    font-size: 13px;
+    color: #E8743B;
+    font-weight: 700;
+  }
+
+  .t-place {
+    font-size: 16px;
+    font-weight: 700;
+    color: #4A3728;
+    margin: 2px 0;
+  }
+
+  .t-desc {
+    font-size: 13px;
+    color: #7A5A45;
+    line-height: 1.6;
+  }
+
+  .t-tags {
+    margin-top: 6px;
+  }
+
+  .t-tag {
+    display: inline-block;
+    padding: 2px 8px;
+    border-radius: 10px;
+    font-size: 11px;
+    margin-right: 4px;
+  }
+
+  .t-drive { background: #E8F4F8; color: #4A90A4; }
+  .t-food { background: #FFF2E8; color: #E8743B; }
+  .t-view { background: #E8F5E9; color: #5A8F5A; }
+  .t-alt { background: #F3E5F5; color: #7B4B8C; }
+  .t-photo { background: #FFF8E1; color: #D4A017; }
+
+  .stay-box {
+    margin-top: 18px;
+    padding: 14px 16px;
+    background: #FFF8E8;
+    border-radius: 14px;
+    border: 2px dashed #FFD9A6;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+
+  .stay-emoji { font-size: 28px; }
+  .stay-title { font-size: 15px; font-weight: 700; color: #4A3728; }
+  .stay-detail { font-size: 12px; color: #8B5E3C; margin-top: 2px; }
+
+  /* ===== ALTITUDE SECTION ===== */
+  .alt-section {
+    padding: 0 40px 30px;
+  }
+
+  .alt-card {
+    background: #fff;
+    border-radius: 24px;
+    padding: 24px;
+    box-shadow: 0 8px 30px rgba(0,0,0,0.06);
+  }
+
+  .alt-title {
+    font-size: 18px;
+    font-weight: 700;
+    color: #4A3728;
+    margin-bottom: 16px;
+    text-align: center;
+  }
+
+  .alt-bars {
+    display: flex;
+    align-items: flex-end;
+    justify-content: space-around;
+    height: 150px;
+    padding-bottom: 20px;
+    border-bottom: 2px dashed #FFE8CC;
+  }
+
+  .alt-bar-wrap {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 60px;
+  }
+
+  .alt-bar {
+    width: 36px;
+    border-radius: 6px 6px 0 0;
+    position: relative;
+    transition: height 0.5s;
+  }
+
+  .alt-bar-value {
+    position: absolute;
+    top: -20px;
+    left: 50%;
+    transform: translateX(-50%);
+    font-size: 11px;
+    font-weight: 700;
+    color: #D94E1F;
+    white-space: nowrap;
+  }
+
+  .alt-bar-label {
+    margin-top: 8px;
+    font-size: 12px;
+    color: #5A3E2B;
+    text-align: center;
+    line-height: 1.3;
+  }
+
+  .alt-line-chart {
+    margin-top: 20px;
+    padding: 16px 12px 4px;
+    background: rgba(255,245,230,0.5);
+    border-radius: 12px;
+  }
+
+  .alt-line-chart svg {
+    display: block;
+    width: 100%;
+  }
+
+  .alt-subtitle {
+    font-size: 12px;
+    color: rgba(74,55,40,0.45);
+    text-align: center;
+    margin-bottom: 4px;
+    letter-spacing: 1px;
+  }
+
+  .alt-note {
+    margin-top: 16px;
+    padding: 12px 16px;
+    background: #FFF2E8;
+    border-radius: 12px;
+    font-size: 13px;
+    color: #8B4513;
+    line-height: 1.6;
+  }
+
+  /* ===== TIPS SECTION ===== */
+  .tips-section {
+    padding: 0 40px 30px;
+  }
+
+  .tips-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 14px;
+  }
+
+  .tip-card {
+    background: #fff;
+    border-radius: 18px;
+    padding: 18px;
+    box-shadow: 0 6px 20px rgba(0,0,0,0.05);
+  }
+
+  .tip-emoji { font-size: 32px; margin-bottom: 8px; }
+  .tip-title { font-size: 16px; font-weight: 900; color: #4A3728; margin-bottom: 8px; }
+  .tip-text {
+    font-size: 12px;
+    color: #7A5A45;
+    line-height: 1.7;
+  }
+
+  .tip-text strong { color: #D94E1F; }
+
+  /* ===== BUDGET SECTION ===== */
+  .budget-section {
+    padding: 0 40px 30px;
+  }
+
+  .budget-card {
+    background: #fff;
+    border-radius: 24px;
+    padding: 24px;
+    box-shadow: 0 8px 30px rgba(0,0,0,0.06);
+  }
+
+  .budget-table {
+    width: 100%;
+    border-collapse: collapse;
+  }
+
+  .budget-table td {
+    padding: 12px 0;
+    border-bottom: 1px dashed #FFE8CC;
+    font-size: 14px;
+    color: #5A3E2B;
+  }
+
+  .budget-table td:last-child {
+    text-align: right;
+    font-weight: 700;
+    color: #D94E1F;
+  }
+
+  .budget-table tr:last-child td {
+    border-bottom: none;
+    padding-top: 16px;
+  }
+
+  .budget-total td {
+    font-size: 18px;
+    font-weight: 900;
+    color: #4A3728 !important;
+  }
+
+  .budget-total td:last-child {
+    color: #D94E1F !important;
+    font-size: 24px;
+  }
+
+  .budget-per {
+    text-align: center;
+    margin-top: 14px;
+    padding-top: 14px;
+    border-top: 2px solid #FFE8CC;
+    font-size: 14px;
+    color: #7A5A45;
+  }
+
+  .budget-per strong {
+    color: #D94E1F;
+    font-size: 18px;
+  }
+
+  /* ===== PACKING SECTION ===== */
+  .packing-section {
+    padding: 0 40px 30px;
+  }
+
+  .packing-card {
+    background: #fff;
+    border-radius: 24px;
+    padding: 24px;
+    box-shadow: 0 8px 30px rgba(0,0,0,0.06);
+  }
+
+  .packing-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 16px;
+  }
+
+  .packing-col h4 {
+    font-size: 15px;
+    color: #D94E1F;
+    margin-bottom: 10px;
+    padding-left: 8px;
+    border-left: 3px solid #FFB84D;
+  }
+
+  .packing-col ul {
+    list-style: none;
+    font-size: 13px;
+    color: #5A3E2B;
+    line-height: 2;
+  }
+
+  .packing-col li::before {
+    content: '☐';
+    color: #FFB84D;
+    margin-right: 6px;
+  }
+
+  /* ===== FOOTER ===== */
+  .footer {
+    padding: 30px 40px 50px;
+    text-align: center;
+    background: #FFF0D6;
+    position: relative;
+  }
+
+  .footer-emoji { font-size: 40px; margin-bottom: 10px; }
+  .footer-text {
+    font-size: 16px;
+    color: #8B5E3C;
+    font-weight: 700;
+  }
+  .footer-sub {
+    font-size: 12px;
+    color: #B8956E;
+    margin-top: 6px;
+  }
+
+  /* Mountain decorations */
+  .mtn-deco {
+    position: absolute;
+    bottom: 0;
+    opacity: 0.15;
+  }
+
+  .highlight {
+    background: linear-gradient(180deg, transparent 60%, rgba(255,184,77,0.3) 60%);
+  }
+</style>
+</head>
+<body>
+<div class="poster">
+
+  <!-- HEADER -->
+  <div class="header">
+    <div class="sun">
+      <div class="sun-body"></div>
+      <div class="sun-ray" style="transform: translate(-50%,-50%) rotate(0deg) translateY(-20px);"></div>
+      <div class="sun-ray" style="transform: translate(-50%,-50%) rotate(45deg) translateY(-20px);"></div>
+      <div class="sun-ray" style="transform: translate(-50%,-50%) rotate(90deg) translateY(-20px);"></div>
+      <div class="sun-ray" style="transform: translate(-50%,-50%) rotate(135deg) translateY(-20px);"></div>
+      <div class="sun-ray" style="transform: translate(-50%,-50%) rotate(180deg) translateY(-20px);"></div>
+      <div class="sun-ray" style="transform: translate(-50%,-50%) rotate(225deg) translateY(-20px);"></div>
+      <div class="sun-ray" style="transform: translate(-50%,-50%) rotate(270deg) translateY(-20px);"></div>
+      <div class="sun-ray" style="transform: translate(-50%,-50%) rotate(315deg) translateY(-20px);"></div>
+    </div>
+    <div class="cloud cloud-1"></div>
+    <div class="cloud cloud-2"></div>
+    <div class="plane">✈️</div>
+
+    <div class="tag">川西自驾路书</div>
+    <div class="main-title">川西环线攻略</div>
+    <div class="sub-title">成都 · 康定 · 红海子 · 塔公 · 姑弄村 · 鱼子西</div>
+    
+    <div class="trip-info">
+      <div class="info-pill">📅 9.11 — 9.13</div>
+      <div class="info-pill">🚗 2辆车 · 6人</div>
+      <div class="info-pill">🏔️ 3天2晚</div>
+      <div class="info-pill">📍 成都出发</div>
+    </div>
+  </div>
+
+  <!-- ROUTE MAP -->
+  <div class="route-section">
+    <div class="section-title">
+      <h2>🗺️ 路线总览</h2>
+    </div>
+    
+    <div class="route-map-card">
+      <svg class="map-svg" viewBox="0 0 660 460">
+        <!-- Background mountains -->
+        <path d="M 50 380 Q 120 310 190 360 T 330 340 T 480 290 T 620 320" fill="none" stroke="#E8DCC8" stroke-width="2" stroke-dasharray="6,4"/>
+
+        <!-- Lake -->
+        <ellipse cx="300" cy="290" rx="35" ry="18" fill="#6BB3C4" opacity="0.5"/>
+        <ellipse cx="305" cy="292" rx="25" ry="12" fill="#8ECAE6" opacity="0.4"/>
+
+        <!-- Grassland -->
+        <ellipse cx="440" cy="240" rx="50" ry="25" fill="#A8D5A2" opacity="0.35"/>
+
+        <!-- Mountains icon -->
+        <g transform="translate(530,30)">
+          <polygon points="0,40 30,0 60,40" fill="#7AB87A" opacity="0.5"/>
+          <polygon points="35,40 60,10 90,40" fill="#5A8F5A" opacity="0.7"/>
+          <polygon points="15,40 45,-15 80,40" fill="#fff" opacity="0.35"/>
+        </g>
+
+        <!-- ===== OUTBOUND ROUTE (Day 1-2, orange solid) ===== -->
+        <path d="M 100 390 C 140 360, 190 340, 230 310 C 270 280, 300 260, 340 250 C 380 240, 410 220, 440 210 C 470 200, 490 190, 510 170 C 525 150, 535 120, 540 90"
+              fill="none" stroke="#E8743B" stroke-width="7" stroke-linecap="round"/>
+        <path d="M 100 390 C 140 360, 190 340, 230 310 C 270 280, 300 260, 340 250 C 380 240, 410 220, 440 210 C 470 200, 490 190, 510 170 C 525 150, 535 120, 540 90"
+              fill="none" stroke="#FFB84D" stroke-width="3" stroke-linecap="round" stroke-dasharray="12,8"/>
+
+        <!-- Short hop: 鱼子西 → 新都桥 (Day 2 evening) -->
+        <path d="M 540 90 Q 520 110 490 135" fill="none" stroke="#E8743B" stroke-width="5" stroke-linecap="round" opacity="0.6"/>
+
+        <!-- ===== RETURN ROUTE (Day 3, green dashed) ===== -->
+        <path d="M 490 135 C 440 160, 410 200, 380 230 C 330 270, 280 310, 240 335 C 200 360, 150 375, 110 395"
+              fill="none" stroke="#5A8F5A" stroke-width="4" stroke-linecap="round" stroke-dasharray="10,6"/>
+
+        <!-- Return arrow at 成都 -->
+        <polygon points="110,395 120,385 118,392 128,390 118,400 116,393" fill="#5A8F5A"/>
+
+        <!-- ===== DAY LABELS ===== -->
+        <text x="160" y="425" fill="#E8743B" font-size="10" font-weight="700" font-family="sans-serif">DAY 1 去程</text>
+        <text x="370" y="170" fill="#E8743B" font-size="10" font-weight="700" font-family="sans-serif">DAY 2 高原</text>
+        <text x="300" y="370" fill="#5A8F5A" font-size="10" font-weight="700" font-family="sans-serif">DAY 3 返程</text>
+
+        <!-- ===== NUMBERED STOPS ===== -->
+        <!-- 1 成都 (start) -->
+        <circle cx="100" cy="390" r="14" fill="#E8743B"/>
+        <text x="100" y="394" text-anchor="middle" fill="#fff" font-size="12" font-weight="700">1</text>
+        <text x="100" y="420" text-anchor="middle" fill="#5A3E2B" font-size="13" font-weight="700">成都</text>
+        <text x="100" y="434" text-anchor="middle" fill="#999" font-size="10">500m · 起点</text>
+
+        <!-- 2 康定 -->
+        <circle cx="230" cy="310" r="14" fill="#E8743B"/>
+        <text x="230" y="314" text-anchor="middle" fill="#fff" font-size="12" font-weight="700">2</text>
+        <text x="230" y="290" text-anchor="middle" fill="#5A3E2B" font-size="13" font-weight="700">康定</text>
+        <text x="230" y="278" text-anchor="middle" fill="#999" font-size="10">2560m · 住D1</text>
+
+        <!-- 3 红海子 -->
+        <circle cx="340" cy="250" r="13" fill="#E8743B"/>
+        <text x="340" y="254" text-anchor="middle" fill="#fff" font-size="11" font-weight="700">3</text>
+        <text x="285" y="238" text-anchor="middle" fill="#5A3E2B" font-size="12" font-weight="700">红海子</text>
+        <text x="285" y="225" text-anchor="middle" fill="#999" font-size="10">~4200m</text>
+
+        <!-- 4 塔公 -->
+        <circle cx="440" cy="210" r="13" fill="#E8743B"/>
+        <text x="440" y="214" text-anchor="middle" fill="#fff" font-size="11" font-weight="700">4</text>
+        <text x="490" y="200" text-anchor="middle" fill="#5A3E2B" font-size="12" font-weight="700">塔公</text>
+        <text x="490" y="213" text-anchor="middle" fill="#999" font-size="10">~3800m</text>
+
+        <!-- 5 姑弄村 -->
+        <circle cx="510" cy="170" r="13" fill="#E8743B"/>
+        <text x="510" y="174" text-anchor="middle" fill="#fff" font-size="11" font-weight="700">5</text>
+        <text x="560" y="160" text-anchor="middle" fill="#5A3E2B" font-size="12" font-weight="700">姑弄村</text>
+        <text x="560" y="173" text-anchor="middle" fill="#999" font-size="10">~3600m</text>
+
+        <!-- 6 鱼子西 -->
+        <circle cx="540" cy="90" r="14" fill="#E8743B"/>
+        <text x="540" y="94" text-anchor="middle" fill="#fff" font-size="12" font-weight="700">6</text>
+        <text x="540" y="68" text-anchor="middle" fill="#5A3E2B" font-size="13" font-weight="700">鱼子西</text>
+        <text x="540" y="55" text-anchor="middle" fill="#999" font-size="10">~4200m · 日落</text>
+
+        <!-- 7 新都桥 (住D2, on return path start) -->
+        <circle cx="490" cy="135" r="14" fill="#4A90A4"/>
+        <text x="490" y="139" text-anchor="middle" fill="#fff" font-size="12" font-weight="700">7</text>
+        <text x="610" y="120" text-anchor="middle" fill="#5A3E2B" font-size="12" font-weight="700">新都桥</text>
+        <text x="610" y="133" text-anchor="middle" fill="#999" font-size="10">3300m · 住D2</text>
+
+        <!-- 8 折多山 (return pass) -->
+        <circle cx="380" cy="230" r="13" fill="#5A8F5A"/>
+        <text x="380" y="234" text-anchor="middle" fill="#fff" font-size="11" font-weight="700">8</text>
+        <text x="330" y="220" text-anchor="middle" fill="#5A3E2B" font-size="12" font-weight="700">折多山</text>
+        <text x="330" y="208" text-anchor="middle" fill="#999" font-size="10">4298m · 返程</text>
+
+        <!-- ===== LEGEND ===== -->
+        <g transform="translate(30, 30)">
+          <rect x="0" y="0" width="140" height="48" fill="#FFF8F0" rx="8" opacity="0.9"/>
+          <line x1="10" y1="16" x2="34" y2="16" stroke="#E8743B" stroke-width="4" stroke-linecap="round"/>
+          <text x="40" y="20" fill="#5A3E2B" font-size="10" font-family="sans-serif">去程 Day 1-2</text>
+          <line x1="10" y1="34" x2="34" y2="34" stroke="#5A8F5A" stroke-width="3" stroke-linecap="round" stroke-dasharray="6,4"/>
+          <text x="40" y="38" fill="#5A3E2B" font-size="10" font-family="sans-serif">返程 Day 3</text>
+        </g>
+      </svg>
+
+      <div class="stops-list">
+        <div class="stop-item">
+          <img class="stop-img" src="images/Aerial_view_of_Chengdu_city_at_2026-08-12T09-12-05.png" alt="成都">
+          <div class="stop-num">1</div>
+          <div class="stop-info"><div class="stop-name">成都</div><span class="stop-alt">500m · 起点</span></div>
+        </div>
+        <div class="stop-item">
+          <img class="stop-img" src="images/Kangding_town_in_western_Sichu_2026-08-12T09-12-04.png" alt="康定">
+          <div class="stop-num">2</div>
+          <div class="stop-info"><div class="stop-name">康定</div><span class="stop-alt">2560m · 住D1</span></div>
+        </div>
+        <div class="stop-item">
+          <img class="stop-img" src="images/Honghaizi_alpine_lake_at_4200m_2026-08-12T09-12-04.png" alt="红海子">
+          <div class="stop-num">3</div>
+          <div class="stop-info"><div class="stop-name">红海子</div><span class="stop-alt">~4200m</span></div>
+        </div>
+        <div class="stop-item">
+          <img class="stop-img" src="images/Tagong_grassland_in_western_Si_2026-08-12T09-12-05.png" alt="塔公">
+          <div class="stop-num">4</div>
+          <div class="stop-info"><div class="stop-name">塔公</div><span class="stop-alt">~3800m</span></div>
+        </div>
+        <div class="stop-item">
+          <img class="stop-img" src="images/Gurong_village_near_Tagong_Sic_2026-08-12T09-12-04.png" alt="姑弄村">
+          <div class="stop-num">5</div>
+          <div class="stop-info"><div class="stop-name">姑弄村</div><span class="stop-alt">~3600m</span></div>
+        </div>
+        <div class="stop-item">
+          <img class="stop-img" src="images/Yuzixi_360_degree_mountain_vie_2026-08-12T09-12-05.png" alt="鱼子西">
+          <div class="stop-num">6</div>
+          <div class="stop-info"><div class="stop-name">鱼子西</div><span class="stop-alt">~4200m · 日落</span></div>
+        </div>
+        <div class="stop-item">
+          <img class="stop-img" src="images/Xinduqiao_in_autumn_western_Si_2026-08-12T09-12-05.png" alt="新都桥">
+          <div class="stop-num">7</div>
+          <div class="stop-info"><div class="stop-name">新都桥</div><span class="stop-alt">3300m · 住D2</span></div>
+        </div>
+        <div class="stop-item">
+          <img class="stop-img" src="images/Zheduoshan_mountain_pass_at_42_2026-08-12T09-12-05.png" alt="折多山">
+          <div class="stop-num">8</div>
+          <div class="stop-info"><div class="stop-name">折多山</div><span class="stop-alt">4298m · 返程</span></div>
+        </div>
+        <div class="stop-item return-item">
+          <div class="stop-num" style="background:#5A8F5A;">↩</div>
+          <span>返回成都</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- STATS -->
+  <div class="stats-bar">
+    <div class="stat-box">
+      <div class="stat-icon">🛣️</div>
+      <div class="stat-num">~780</div>
+      <div class="stat-label">总里程 (km)</div>
+    </div>
+    <div class="stat-box">
+      <div class="stat-icon">⛰️</div>
+      <div class="stat-num">4298</div>
+      <div class="stat-label">最高海拔 (m)</div>
+    </div>
+    <div class="stat-box">
+      <div class="stat-icon">🌄</div>
+      <div class="stat-num">360°</div>
+      <div class="stat-label">雪山观景平台</div>
+    </div>
+    <div class="stat-box">
+      <div class="stat-icon">⛽</div>
+      <div class="stat-num">3</div>
+      <div class="stat-label">加油次数</div>
+    </div>
+  </div>
+
+  <!-- DAY 1 -->
+  <div class="day-section">
+    <div class="day-card">
+      <div class="day-header day-1">
+        <div class="day-label">DAY 01 · 9月11日 · 周四</div>
+        <div class="day-title">成都 → 康定</div>
+        <div class="day-route">🚗 270km · 驾驶约4h · G318南线</div>
+      </div>
+      <div class="day-body">
+        <div class="timeline">
+          <div class="t-item">
+            <div class="t-dot"></div>
+            <div class="t-time">09:00</div>
+            <div class="t-place">成都集合出发</div>
+            <div class="t-desc">两车成都集合，检查车况油满，上成雅高速向西出发。</div>
+            <div class="t-tags"><span class="t-tag t-drive">高速</span></div>
+          </div>
+          <div class="t-item">
+            <div class="t-dot"></div>
+            <div class="t-time">11:00</div>
+            <div class="t-place">雅安 · 服务区休整</div>
+            <div class="t-desc">成雅高速约2小时到雅安，服务区休息15分钟，买零食补水。</div>
+            <div class="t-tags"><span class="t-tag t-drive">休整</span></div>
+          </div>
+          <div class="t-item">
+            <div class="t-dot"></div>
+            <div class="t-time">13:00</div>
+            <div class="t-place">泸定 · 午餐 + 泸定桥</div>
+            <div class="t-desc">G318到大渡河峡谷，泸定县城吃午饭。饭后走泸定桥（门票约10元），铁索桥横跨大渡河，历史感拉满。</div>
+            <div class="t-tags"><span class="t-tag t-food">午餐</span><span class="t-tag t-view">景点</span></div>
+          </div>
+          <div class="t-item">
+            <div class="t-dot"></div>
+            <div class="t-time">15:30</div>
+            <div class="t-place">康定 · 办理入住</div>
+            <div class="t-desc">沿峡谷一路上行到康定，海拔升至2560m。入住后别剧烈运动，先适应一晚。</div>
+            <div class="t-tags"><span class="t-tag t-alt">2560m</span></div>
+          </div>
+          <div class="t-item">
+            <div class="t-dot"></div>
+            <div class="t-time">17:00</div>
+            <div class="t-place">康定老城 · 折多河漫步</div>
+            <div class="t-desc">逛老城、看跑马山、听折多河穿城而过。晚上吃牦牛肉/藏餐，少喝酒。</div>
+            <div class="t-tags"><span class="t-tag t-view">散步</span><span class="t-tag t-food">晚餐</span></div>
+          </div>
+        </div>
+        <div class="stay-box">
+          <div class="stay-emoji">🛏️</div>
+          <div>
+            <div class="stay-title">住康定 · 海拔 2560m</div>
+            <div class="stay-detail">折多河附近酒店/民宿 · 3间房 · 今晚先适应海拔，别洗澡太久</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- DAY 2 -->
+    <div class="day-card">
+      <div class="day-header day-2">
+        <div class="day-label">DAY 02 · 9月12日 · 周五</div>
+        <div class="day-title">康定 → 红海子 → 塔公 → 姑弄村 → 鱼子西</div>
+        <div class="day-route">🚗 ~230km · 驾驶约5.5h · S434 + 高原山路</div>
+      </div>
+      <div class="day-body">
+        <div class="timeline">
+          <div class="t-item">
+            <div class="t-dot"></div>
+            <div class="t-time">08:00</div>
+            <div class="t-place">康定出发 · 加满油</div>
+            <div class="t-desc">高原段加油站少，<strong>务必在康定加满</strong>。早饭吃饱，走S434机场路向西。</div>
+            <div class="t-tags"><span class="t-tag t-drive">加油</span><span class="t-tag t-alt">2560m</span></div>
+          </div>
+          <div class="t-item">
+            <div class="t-dot"></div>
+            <div class="t-time">09:30</div>
+            <div class="t-place">红海子 · 4200m</div>
+            <div class="t-desc">高山冰蚀湖，湖面如镜倒映笔架山雪峰，"天空之镜"既视感。清洁费约10元/人，备好现金。停留约1h。</div>
+            <div class="t-tags"><span class="t-tag t-view">必打卡</span><span class="t-tag t-photo">出片</span><span class="t-tag t-alt">~4200m</span></div>
+          </div>
+          <div class="t-item">
+            <div class="t-dot"></div>
+            <div class="t-time">11:00</div>
+            <div class="t-place">S434 → 塔公草原</div>
+            <div class="t-desc">沿途高原牧场、雪山连绵。经雅拉山口可停车远眺，和雪山并肩。</div>
+            <div class="t-tags"><span class="t-tag t-view">沿途风光</span></div>
+          </div>
+          <div class="t-item">
+            <div class="t-dot"></div>
+            <div class="t-time">12:00</div>
+            <div class="t-place">塔公 · 午餐 + 塔公寺</div>
+            <div class="t-desc">塔公草原眺望雅拉雪山，逛塔公寺（门票15元）。午餐后自由活动1.5h。</div>
+            <div class="t-tags"><span class="t-tag t-food">午餐</span><span class="t-tag t-view">草原</span><span class="t-tag t-alt">3800m</span></div>
+          </div>
+          <div class="t-item">
+            <div class="t-dot"></div>
+            <div class="t-time">14:00</div>
+            <div class="t-place">姑弄村 · 雪山溪流咖啡</div>
+            <div class="t-desc">塔公镇下辖小村，距塔公10分钟车程。溪流+草甸+雅拉雪山背景，可以喝咖啡、铺垫子躺平。免门票，停车费20元/车。</div>
+            <div class="t-tags"><span class="t-tag t-view">慢节奏</span><span class="t-tag t-food">咖啡</span><span class="t-tag t-alt">3600m</span></div>
+          </div>
+          <div class="t-item">
+            <div class="t-dot"></div>
+            <div class="t-time">16:00</div>
+            <div class="t-place">前往鱼子西</div>
+            <div class="t-desc">姑弄村→塔公→新都桥方向，再上山到鱼子西观景台。上山路是碎石土路，底盘低的车慢点开。</div>
+            <div class="t-tags"><span class="t-tag t-drive">山路</span></div>
+          </div>
+          <div class="t-item">
+            <div class="t-dot"></div>
+            <div class="t-time">17:30</div>
+            <div class="t-place">鱼子西 · 日落金山</div>
+            <div class="t-desc">360°雪山观景平台，南看贡嘎、北看雅拉。9月日落约19:15，提前占机位。风大温度低，穿厚外套。看完日落后下山。</div>
+            <div class="t-tags"><span class="t-tag t-view">日落</span><span class="t-tag t-photo">360°雪山</span><span class="t-tag t-alt">~4200m</span></div>
+          </div>
+        </div>
+        <div class="stay-box">
+          <div class="stay-emoji">🛏️</div>
+          <div>
+            <div class="stay-title">住新都桥 · 海拔 3300m</div>
+            <div class="stay-detail">鱼子西下来约40分钟到 · 3间房 · 比住塔公/姑弄村海拔低，睡觉更稳</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- DAY 3 -->
+    <div class="day-card">
+      <div class="day-header day-3">
+        <div class="day-label">DAY 03 · 9月13日 · 周六</div>
+        <div class="day-title">新都桥 → 折多山 → 康定 → 成都</div>
+        <div class="day-route">🚗 280km · 驾驶约4.5h · G318返程</div>
+      </div>
+      <div class="day-body">
+        <div class="timeline">
+          <div class="t-item">
+            <div class="t-dot"></div>
+            <div class="t-time">09:00</div>
+            <div class="t-place">新都桥自然醒出发</div>
+            <div class="t-desc">睡到自然醒，吃完早饭出发。早晨光线好，沿途可再拍几张。</div>
+            <div class="t-tags"><span class="t-tag t-drive">返程</span></div>
+          </div>
+          <div class="t-item">
+            <div class="t-dot"></div>
+            <div class="t-time">10:00</div>
+            <div class="t-place">翻折多山垭口 · 4298m</div>
+            <div class="t-desc">G318翻越川藏第一关折多山。垭口经幡阵拍照打卡，停留不超过30分钟，避免高反。</div>
+            <div class="t-tags"><span class="t-tag t-view">垭口</span><span class="t-tag t-alt">4298m</span></div>
+          </div>
+          <div class="t-item">
+            <div class="t-dot"></div>
+            <div class="t-time">11:30</div>
+            <div class="t-place">康定 · 午餐</div>
+            <div class="t-desc">到康定吃午餐，休整。如果昨天没逛够可以再补逛。</div>
+            <div class="t-tags"><span class="t-tag t-food">午餐</span></div>
+          </div>
+          <div class="t-item">
+            <div class="t-dot"></div>
+            <div class="t-time">12:30</div>
+            <div class="t-place">泸定 → 雅安 → 成都</div>
+            <div class="t-desc">一路下坡，路况好。约14:30到成都，下午还有时间休息整理。</div>
+            <div class="t-tags"><span class="t-tag t-drive">高速</span></div>
+          </div>
+        </div>
+        <div class="stay-box">
+          <div class="stay-emoji">🏠</div>
+          <div>
+            <div class="stay-title">到家 · 成都</div>
+            <div class="stay-detail">下午抵达 · 还车/洗车 · 好好休息</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ALTITUDE -->
+  <div class="alt-section">
+    <div class="section-title">
+      <h2>📈 海拔变化</h2>
+    </div>
+    <div class="alt-card">
+      <div class="alt-title">全程海拔一览（注意高反）</div>
+      <div class="alt-bars">
+        <div class="alt-bar-wrap">
+          <div class="alt-bar" style="height: 12%; background: linear-gradient(180deg, #7AB87A, #5A8F5A);">
+            <div class="alt-bar-value">500</div>
+          </div>
+          <div class="alt-bar-label">成都</div>
+        </div>
+        <div class="alt-bar-wrap">
+          <div class="alt-bar" style="height: 30%; background: linear-gradient(180deg, #7AB87A, #5A8F5A);">
+            <div class="alt-bar-value">1300</div>
+          </div>
+          <div class="alt-bar-label">泸定</div>
+        </div>
+        <div class="alt-bar-wrap">
+          <div class="alt-bar" style="height: 60%; background: linear-gradient(180deg, #6BB3C4, #4A90A4);">
+            <div class="alt-bar-value">2560</div>
+          </div>
+          <div class="alt-bar-label">康定<br>住D1</div>
+        </div>
+        <div class="alt-bar-wrap">
+          <div class="alt-bar" style="height: 66%; background: linear-gradient(180deg, #FFB84D, #E8743B);">
+            <div class="alt-bar-value">3600</div>
+          </div>
+          <div class="alt-bar-label">姑弄村</div>
+        </div>
+        <div class="alt-bar-wrap">
+          <div class="alt-bar" style="height: 70%; background: linear-gradient(180deg, #FFB84D, #E8743B);">
+            <div class="alt-bar-value">3800</div>
+          </div>
+          <div class="alt-bar-label">塔公</div>
+        </div>
+        <div class="alt-bar-wrap">
+          <div class="alt-bar" style="height: 77%; background: linear-gradient(180deg, #FFB84D, #E8743B);">
+            <div class="alt-bar-value">3300</div>
+          </div>
+          <div class="alt-bar-label">新都桥<br>住D2</div>
+        </div>
+        <div class="alt-bar-wrap">
+          <div class="alt-bar" style="height: 100%; background: linear-gradient(180deg, #D94E1F, #B83A10);">
+            <div class="alt-bar-value">4298</div>
+          </div>
+          <div class="alt-bar-label">折多山<br>垭口</div>
+        </div>
+      </div>
+
+      <!-- 折线图 -->
+      <div class="alt-line-chart">
+        <div class="alt-subtitle">行程海拔折线图</div>
+        <svg viewBox="0 0 760 310" style="width:100%;" preserveAspectRatio="xMidYMid meet">
+          <defs>
+            <linearGradient id="altAreaGrad" x1="0" y1="0" x2="0" y2="1">
+              <stop offset="0%" stop-color="#E8743B" stop-opacity="0.18"/>
+              <stop offset="100%" stop-color="#E8743B" stop-opacity="0.01"/>
+            </linearGradient>
+            <linearGradient id="altLineGrad" x1="0" y1="0" x2="1" y2="0">
+              <stop offset="0%" stop-color="#5A8F5A"/>
+              <stop offset="27%" stop-color="#4A90A4"/>
+              <stop offset="32%" stop-color="#E8743B"/>
+              <stop offset="74%" stop-color="#E8743B"/>
+              <stop offset="79%" stop-color="#5A8F5A"/>
+              <stop offset="100%" stop-color="#5A8F5A"/>
+            </linearGradient>
+          </defs>
+
+          <!-- Grid lines -->
+          <g stroke="rgba(74,55,40,0.06)" stroke-width="1">
+            <line x1="45" y1="45" x2="730" y2="45"/>
+            <line x1="45" y1="85" x2="730" y2="85"/>
+            <line x1="45" y1="125" x2="730" y2="125"/>
+            <line x1="45" y1="165" x2="730" y2="165"/>
+            <line x1="45" y1="205" x2="730" y2="205"/>
+            <line x1="45" y1="225" x2="730" y2="225"/>
+          </g>
+
+          <!-- Y-axis labels -->
+          <g fill="rgba(74,55,40,0.3)" font-size="8" text-anchor="end" font-family="sans-serif">
+            <text x="40" y="48">4500</text>
+            <text x="40" y="88">3600</text>
+            <text x="40" y="128">2700</text>
+            <text x="40" y="168">1800</text>
+            <text x="40" y="208">900</text>
+            <text x="40" y="228">0</text>
+          </g>
+
+          <!-- Danger zone (3500m+) -->
+          <rect x="45" y="45" width="685" height="45" fill="rgba(217,78,31,0.04)" rx="3"/>
+          <text x="725" y="56" text-anchor="end" fill="rgba(217,78,31,0.3)" font-size="8" font-family="sans-serif">高反预警区 3500m+</text>
+
+          <!-- Day dividers -->
+          <line x1="220" y1="30" x2="220" y2="240" stroke="rgba(74,55,40,0.1)" stroke-width="1" stroke-dasharray="4,3"/>
+          <line x1="587" y1="30" x2="587" y2="240" stroke="rgba(74,55,40,0.1)" stroke-width="1" stroke-dasharray="4,3"/>
+
+          <!-- Day labels -->
+          <text x="132" y="26" text-anchor="middle" fill="rgba(90,143,90,0.45)" font-size="9" font-weight="700" font-family="sans-serif">DAY 1</text>
+          <text x="403" y="26" text-anchor="middle" fill="rgba(232,116,59,0.45)" font-size="9" font-weight="700" font-family="sans-serif">DAY 2</text>
+          <text x="658" y="26" text-anchor="middle" fill="rgba(90,143,90,0.45)" font-size="9" font-weight="700" font-family="sans-serif">DAY 3</text>
+
+          <!-- Area fill -->
+          <path d="M 55 205 L 128 173 L 202 123 L 275 57 L 348 73 L 422 81 L 495 57 L 568 93 L 642 53 L 715 205 L 715 225 L 55 225 Z" fill="url(#altAreaGrad)"/>
+
+          <!-- Line -->
+          <path d="M 55 205 L 128 173 L 202 123 L 275 57 L 348 73 L 422 81 L 495 57 L 568 93 L 642 53 L 715 205" fill="none" stroke="url(#altLineGrad)" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+
+          <!-- Stay markers (dashed vertical lines for overnight stops) -->
+          <line x1="202" y1="123" x2="202" y2="225" stroke="#4A90A4" stroke-width="1" stroke-dasharray="2,2" opacity="0.3"/>
+          <line x1="568" y1="93" x2="568" y2="225" stroke="#E8743B" stroke-width="1" stroke-dasharray="2,2" opacity="0.3"/>
+
+          <!-- Data points -->
+          <!-- Day 1 -->
+          <circle cx="55" cy="205" r="4.5" fill="#5A8F5A" stroke="#fff" stroke-width="1.5"/>
+          <circle cx="128" cy="173" r="3.5" fill="#5A8F5A" stroke="#fff" stroke-width="1.5"/>
+          <circle cx="202" cy="123" r="4.5" fill="#4A90A4" stroke="#fff" stroke-width="1.5"/>
+          <!-- Day 2 -->
+          <circle cx="275" cy="57" r="4.5" fill="#E8743B" stroke="#fff" stroke-width="1.5"/>
+          <circle cx="348" cy="73" r="3.5" fill="#E8743B" stroke="#fff" stroke-width="1.5"/>
+          <circle cx="422" cy="81" r="3.5" fill="#E8743B" stroke="#fff" stroke-width="1.5"/>
+          <circle cx="495" cy="57" r="4.5" fill="#E8743B" stroke="#fff" stroke-width="1.5"/>
+          <circle cx="568" cy="93" r="4.5" fill="#E8743B" stroke="#fff" stroke-width="1.5"/>
+          <!-- Day 3 -->
+          <circle cx="642" cy="53" r="4.5" fill="#D94E1F" stroke="#fff" stroke-width="1.5"/>
+          <circle cx="715" cy="205" r="4.5" fill="#5A8F5A" stroke="#fff" stroke-width="1.5"/>
+
+          <!-- Labels -->
+          <g font-size="8.5" font-family="sans-serif" text-anchor="middle">
+            <!-- 成都 D1 (below) -->
+            <text x="55" y="220" fill="#5A8F5A" font-weight="700">成都</text>
+            <text x="55" y="232" fill="rgba(74,55,40,0.35)">500m</text>
+            <!-- 泸定 (above) -->
+            <text x="128" y="163" fill="rgba(74,55,40,0.5)">泸定</text>
+            <text x="128" y="153" fill="rgba(74,55,40,0.3)">1300m</text>
+            <!-- 康定 (above) -->
+            <text x="202" y="113" fill="#4A90A4" font-weight="700">康定</text>
+            <text x="202" y="103" fill="rgba(74,55,40,0.3)">2560m · 住D1</text>
+            <!-- 红海子 (above) -->
+            <text x="275" y="47" fill="#E8743B" font-weight="700">红海子</text>
+            <text x="275" y="37" fill="rgba(74,55,40,0.3)">4200m</text>
+            <!-- 塔公 (below) -->
+            <text x="348" y="63" fill="rgba(74,55,40,0.5)" font-size="8">塔公</text>
+            <text x="348" y="95" fill="rgba(74,55,40,0.3)" font-size="8">3800m</text>
+            <!-- 姑弄村 (below) -->
+            <text x="422" y="71" fill="rgba(74,55,40,0.5)" font-size="8">姑弄村</text>
+            <text x="422" y="103" fill="rgba(74,55,40,0.3)" font-size="8">3600m</text>
+            <!-- 鱼子西 (above) -->
+            <text x="495" y="47" fill="#E8743B" font-weight="700">鱼子西</text>
+            <text x="495" y="37" fill="rgba(74,55,40,0.3)">4200m</text>
+            <!-- 新都桥 (below) -->
+            <text x="568" y="83" fill="#E8743B" font-weight="700" font-size="8">新都桥</text>
+            <text x="568" y="113" fill="rgba(74,55,40,0.3)" font-size="8">3300m · 住D2</text>
+            <!-- 折多山 (above) -->
+            <text x="642" y="43" fill="#D94E1F" font-weight="700">折多山</text>
+            <text x="642" y="33" fill="rgba(74,55,40,0.3)">4298m</text>
+            <!-- 成都 D3 (below) -->
+            <text x="715" y="220" fill="#5A8F5A" font-weight="700">成都</text>
+            <text x="715" y="232" fill="rgba(74,55,40,0.35)">500m</text>
+          </g>
+
+          <!-- Legend -->
+          <g font-size="8" font-family="sans-serif" fill="rgba(74,55,40,0.4)">
+            <circle cx="80" cy="295" r="3" fill="#5A8F5A"/>
+            <text x="88" y="298">去程/返程</text>
+            <circle cx="170" cy="295" r="3" fill="#4A90A4"/>
+            <text x="178" y="298">住宿点</text>
+            <circle cx="245" cy="295" r="3" fill="#E8743B"/>
+            <text x="253" y="298">高原景点</text>
+            <circle cx="335" cy="295" r="3" fill="#D94E1F"/>
+            <text x="343" y="298">最高点</text>
+            <rect x="410" y="292" width="12" height="6" fill="rgba(217,78,31,0.08)" rx="2"/>
+            <text x="427" y="298">高反预警区</text>
+          </g>
+        </svg>
+      </div>
+
+      <div class="alt-note">
+        <strong>⚠️ 高反提醒：</strong>红海子和鱼子西都在4200m左右，是全程最高。康定住一晚先适应，Day 2 别跑跳、少说话、备氧气瓶。如果高反严重，直接下撤到低海拔地方。
+      </div>
+    </div>
+  </div>
+
+  <!-- TIPS -->
+  <div class="tips-section">
+    <div class="section-title">
+      <h2>💡 实用攻略</h2>
+    </div>
+    <div class="tips-grid">
+      <div class="tip-card">
+        <div class="tip-emoji">⛽</div>
+        <div class="tip-title">加油</div>
+        <div class="tip-text"><strong>康定加满！</strong>S434和高原段加油站极少，新都桥油价贵。两车出发前都加满，路上保持半箱以上就补。</div>
+      </div>
+      <div class="tip-card">
+        <div class="tip-emoji">🌤️</div>
+        <div class="tip-title">天气穿搭</div>
+        <div class="tip-text">9月早晚5-10°C，白天15-25°C。冲锋衣/薄羽绒+短袖叠穿，鱼子西山头风大需厚外套。紫外线极强，防晒+墨镜+帽子必备。</div>
+      </div>
+      <div class="tip-card">
+        <div class="tip-emoji">🚗</div>
+        <div class="tip-title">两车协调</div>
+        <div class="tip-text">建微信群语音沟通，山区信号弱备对讲机更稳。每车至少1人能轮换开车。S434和鱼子西山路窄，保持车距。</div>
+      </div>
+      <div class="tip-card">
+        <div class="tip-emoji">📸</div>
+        <div class="tip-title">拍照时间</div>
+        <div class="tip-text">红海子上午顺光，姑弄村下午柔和，鱼子西日落前1小时到达占机位。日落时间约19:15，别迟到。</div>
+      </div>
+      <div class="tip-card">
+        <div class="tip-emoji">💰</div>
+        <div class="tip-title">费用小项</div>
+        <div class="tip-text">泸定桥10元、塔公寺15元、红海子清洁费10元、姑弄村停车20元/车、鱼子西可能有清洁费/门票（几十元），备现金。</div>
+      </div>
+      <div class="tip-card">
+        <div class="tip-emoji">🗺️</div>
+        <div class="tip-title">导航提示</div>
+        <div class="tip-text">红海子导航搜<strong>"加呷腊"</strong>，鱼子西直接搜"鱼子西"，姑弄村搜"姑弄村"或"塔公镇姑弄村"。提前下载离线地图。</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- BUDGET -->
+  <div class="budget-section">
+    <div class="section-title">
+      <h2>💵 费用预估</h2>
+    </div>
+    <div class="budget-card">
+      <table class="budget-table">
+        <tr><td>油费（2车 × 780km/车）</td><td>~1200元</td></tr>
+        <tr><td>过路费（成雅+雅康高速往返 × 2车）</td><td>~500元</td></tr>
+        <tr><td>住宿（150元/人/晚 × 6人 × 2晚）</td><td>1800元</td></tr>
+        <tr><td>餐饮（150元/人/天 × 6人 × 3天）</td><td>2700元</td></tr>
+        <tr><td>门票/清洁费/停车费</td><td>~300元</td></tr>
+        <tr class="budget-total"><td>合计</td><td>~6500元</td></tr>
+      </table>
+      <div class="budget-per">
+        人均约 <strong>¥1083</strong>
+      </div>
+    </div>
+  </div>
+
+  <!-- PACKING -->
+  <div class="packing-section">
+    <div class="section-title">
+      <h2>🎒 行李清单</h2>
+    </div>
+    <div class="packing-card">
+      <div class="packing-grid">
+        <div class="packing-col">
+          <h4>👕 穿搭</h4>
+          <ul>
+            <li>冲锋衣 / 薄羽绒服</li>
+            <li>抓绒衣 / 卫衣</li>
+            <li>短袖/长袖T恤</li>
+            <li>长裤 / 厚袜子</li>
+            <li>帽子 / 墨镜</li>
+            <li>舒适徒步鞋</li>
+          </ul>
+        </div>
+        <div class="packing-col">
+          <h4>🧴 日用</h4>
+          <ul>
+            <li>防晒霜 SPF50+</li>
+            <li>润唇膏 / 保湿霜</li>
+            <li>充电宝 / 车载充电</li>
+            <li>保温杯</li>
+            <li>湿巾 / 纸巾</li>
+            <li>垃圾袋</li>
+          </ul>
+        </div>
+        <div class="packing-col">
+          <h4>💊 药品</h4>
+          <ul>
+            <li>氧气瓶（2-4瓶）</li>
+            <li>葡萄糖口服液</li>
+            <li>布洛芬 / 头痛药</li>
+            <li>晕车药</li>
+            <li>创可贴 / 碘伏</li>
+            <li>肠胃药</li>
+          </ul>
+        </div>
+        <div class="packing-col">
+          <h4>🚗 车上</h4>
+          <ul>
+            <li>对讲机</li>
+            <li>行车记录仪</li>
+            <li>离线地图</li>
+            <li>零食 / 矿泉水</li>
+            <li>现金（部分地方没信号）</li>
+            <li>驾驶证 / 行驶证</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- FOOTER -->
+  <div class="footer">
+    <div class="footer-emoji">🏔️🌅🚗</div>
+    <div class="footer-text">祝川西之旅，日照金山，一路平安！</div>
+    <div class="footer-sub">6人 · 2辆车 · 松弛出游 · 不赶路</div>
+  </div>
+
+</div>
+</body>
+</html>
